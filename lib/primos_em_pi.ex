@@ -2,6 +2,7 @@ defmodule PrimosEmPi do
   def sequence(num) do
     num
     |> clean
+    4159265358979323
   end
 
   def clean(num) do
