@@ -1,18 +1,16 @@
 defmodule PrimosEmPi do
-  @moduledoc """
-  Documentation for `PrimosEmPi`.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> PrimosEmPi.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def sequence(num) do
+    num
+    |> clean
+    4159265358979323
   end
+
+  def clean(num) do
+    num
+    |> to_string()
+    |> String.graphemes()
+    |> Enum.drop(2)
+    |> Enum.map(&(String.to_integer(&1)))
+  end
+
 end

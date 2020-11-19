@@ -1,8 +1,7 @@
 defmodule PrimosEmPiTest do
   use ExUnit.Case
-  doctest PrimosEmPi
 
-  test "greets the world" do
-    assert PrimosEmPi.hello() == :world
+  test "initial sequence" do
+    assert PrimosEmPi.sequence(3.14159265358979323846) == 4159265358979323
   end
 end
