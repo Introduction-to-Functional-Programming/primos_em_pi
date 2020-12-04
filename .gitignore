@@ -21,6 +21,7 @@ erl_crash.dump
 
 # Ignore package tarball (built via "mix hex.build").
 primos_em_pi-*.tar
+pi-1M.txt
 
 
 # Temporary files for e.g. tests
