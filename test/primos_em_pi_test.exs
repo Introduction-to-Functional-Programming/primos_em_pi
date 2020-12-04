@@ -1,7 +1,7 @@
 defmodule PrimosEmPiTest do
   use ExUnit.Case
 
-  test "initial sequence" do
+  test "Find the longest sequence of prime numbers inside the decimal digits of a truncated representation of pi" do
     assert PrimosEmPi.sequence(3.14159265358979323846) == 4_159_265_358_979_323
   end
 
@@ -65,5 +65,22 @@ defmodule PrimosEmPiTest do
 
     assert PrimosEmPi.biggest_prime([1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4, 6]) ==
              9323
+  end
+
+  @tag timeout: :infinity
+  test "Teste de geração da sequencia de primos" do
+    challenge = "14159265358979323846"
+    assert PrimosEmPi.biggest_sequence(challenge) == "4159265358979323"
+
+    assert PrimosEmPi.biggest_sequence("2220123") == "222"
+    assert PrimosEmPi.biggest_sequence("44444253125478000") == "4253"
+
+    resposta = PrimosEmPi.biggest_sequence(PrimosEmPi.clean(File.read!("pi-1M.txt")))
+
+    assert resposta ==
+             "14590431451723416161791510706177671741511297009743626357169179809791310760755"
+
+    # f = File.open!("./resposta.txt", [:write] )
+    File.write!("./resposta.txt", resposta, [:write])
   end
 end
