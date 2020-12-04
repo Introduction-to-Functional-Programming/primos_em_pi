@@ -69,18 +69,36 @@ defmodule PrimosEmPiTest do
 
   @tag timeout: :infinity
   test "Teste de geração da sequencia de primos" do
+    challenge = "14159"
+    assert PrimosEmPi.biggest_sequence(challenge) == "4159"
+
+    challenge = "265358979323846"
+    assert PrimosEmPi.biggest_sequence(challenge) == "265358979323"
+
     challenge = "14159265358979323846"
     assert PrimosEmPi.biggest_sequence(challenge) == "4159265358979323"
 
-    assert PrimosEmPi.biggest_sequence("2220123") == "222"
-    assert PrimosEmPi.biggest_sequence("44444253125478000") == "4253"
+    entrada_arquivo = PrimosEmPi.clean(String.trim(File.read!("pi-100.txt"))) |> Enum.join("")
 
-    resposta = PrimosEmPi.biggest_sequence(PrimosEmPi.clean(File.read!("pi-1M.txt")))
+    resposta = PrimosEmPi.biggest_sequence(entrada_arquivo)
+    IO.inspect(entrada_arquivo)
 
     assert resposta ==
-             "14590431451723416161791510706177671741511297009743626357169179809791310760755"
+             "4159265358979323"
 
-    # f = File.open!("./resposta.txt", [:write] )
-    File.write!("./resposta.txt", resposta, [:write])
+    # entrada_arquivo = PrimosEmPi.clean(String.trim(File.read!("pi-1000.txt"))) |> Enum.join("")
+
+    # resposta = PrimosEmPi.biggest_sequence(entrada_arquivo)
+
+    # assert resposta ==
+    #   "4639522473719070217986094370277053"
+
+    # entrada_arquivo = PrimosEmPi.clean(String.trim(File.read!("pi-1M.txt"))) |> Enum.join("")
+
+    # resposta = PrimosEmPi.biggest_sequence(entrada_arquivo)
+
+    #   IO.inspect(resposta)
+    #   assert resposta ==
+    #     "14590431451723416161791510706177671741511297009743626357169179809791310760755"
   end
 end
