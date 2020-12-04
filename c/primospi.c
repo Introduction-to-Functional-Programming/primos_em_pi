@@ -220,7 +220,7 @@ int main()
 {
     FILE *fs = NULL;
 
-    fs = fopen("pi-1M.txt", "r"); // abrir o arquivo e alocar na memória para processar
+    fs = fopen("../pi-100.txt", "r"); // abrir o arquivo e alocar na memória para processar
     if (!fs)
     {
         printf("Erro ao ler o arquivo\n");

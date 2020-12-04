@@ -68,13 +68,15 @@ defmodule PrimosEmPi do
   def max_digits(numbers) when length(numbers) < @max_digits_constant, do: length(numbers)
   def max_digits(_), do: @max_digits_constant
 
-  def biggest_sequence(number) when is_list(number) do
+  @spec biggest_sequence(binary) :: {<<>>, binary, bitstring}
+
+  def old_biggest_sequence(number) when is_list(number) do
     number
     |> as_string()
-    |> biggest_sequence()
+    |> old_biggest_sequence()
   end
 
-  def biggest_sequence(number) do
+  def old_biggest_sequence(number) do
     number
     |> number_to_slices()
     |> get_all_primes()
@@ -215,5 +217,65 @@ defmodule PrimosEmPi do
     |> as_string()
     |> number_to_slices()
     |> get_all_primes()
+  end
+
+  # 04/12/2020
+
+  def biggest_sequence(number_as_string) do
+    do_biggest_sequence(number_as_string, [])
+    |> Enum.reverse()
+    |> IO.inspect()
+    |> Enum.join()
+  end
+
+  def do_biggest_sequence("", list_of_primes) do
+    list_of_primes
+  end
+
+  def do_biggest_sequence(number_as_string, list_of_primes) do
+    # IO.inspect(list_of_primes)
+    {first_n, rest} = split_at_first_n_characters(number_as_string, @max_digits_constant)
+    {before_prime, prime, after_prime} = split_at_biggest_prime(first_n)
+    # {before_prime, prime, after_prime} |> IO.inspect()
+    continue_sequence({before_prime, prime, after_prime}, rest, list_of_primes)
+  end
+
+  def continue_sequence({_, prime, ""}, "", list_of_primes) do
+    [prime | list_of_primes]
+  end
+
+  def continue_sequence({_before_prime, "", after_prime}, rest, list_of_primes) do
+    do_biggest_sequence(String.slice(after_prime <> rest, 1..-1), list_of_primes)
+  end
+
+  def continue_sequence({_before_prime, prime, after_prime}, rest, list_of_primes) do
+    # IO.inspect(after_prime)
+    # IO.inspect(rest)
+    # IO.inspect(prime)
+    # IO.inspect([prime | list_of_primes])
+    do_biggest_sequence(after_prime <> rest, [prime | list_of_primes])
+  end
+
+  def split_at_biggest_prime(string) do
+    do_split_at_biggest_prime(string, "", "", "")
+  end
+
+  def do_split_at_biggest_prime("", before_prime, prime, after_prime) do
+    {before_prime, prime, after_prime}
+  end
+
+  def do_split_at_biggest_prime(origin, before_prime, prime, after_prime) do
+    cond do
+      is_prime?(origin) ->
+        {"", origin, after_prime}
+
+      true ->
+        {new_origin, last_char} = String.split_at(origin, String.length(origin) - 1)
+        do_split_at_biggest_prime(new_origin, before_prime, prime, last_char <> after_prime)
+    end
+  end
+
+  defp split_at_first_n_characters(string, n) do
+    String.split_at(string, min(n, String.length(string)))
   end
 end
